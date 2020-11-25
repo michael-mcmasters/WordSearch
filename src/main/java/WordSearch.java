@@ -29,65 +29,36 @@ public class WordSearch{
             for (int column = 0; column < columns; column++) {
 
                 // Condition here for debugging breakpoint.
-                if (row == 0 && column == 4) {
+                if (row == 0 && column == 2) {
                     System.out.println(grid[row][column]);
                 }
 
+                if (grid[row][column] == word.charAt(0)) {
+                    for (Direction direction : Direction.values()) {
+                        int index = 1;
+                        int matches = 0;
+                        boolean continueSearching = true;
+                        while (continueSearching) {
+                            char letter = word.charAt(index);
+                            int dirDistance = index;
+                            char letterInDir = getNextCharInDirection(direction, row, column, dirDistance);
+                            if (letter == letterInDir) {
+                                matches++;
+                            } else {
+                                continueSearching = false;
+                            }
 
-                for (Direction direction : Direction.values()) {
-                    int index = 1;
-                    int matches = 0;
-                    boolean continueSearching = true;
-                    while (continueSearching) {
-                        char letter = word.charAt(index);
-                        int dirDistance = index;
-                        char letterInDir = getNextCharInDirection(direction, row, column, dirDistance);
-                        if (letter == letterInDir) {
-                            matches++;
-                        } else {
-                            continueSearching = false;
+                            if (index == word.length() - 1) {
+                                if (matches > 0)
+                                    answers.add("(" +row + " , " + column + ")" + direction);
+                                continueSearching = false;
+                            }
+
+                            index++;
                         }
 
-                        if (index == word.length() - 1) {
-                            if (matches > 0)
-                                answers.add("(" +row + ", " + column + ")" + direction);
-                            continueSearching = false;
-                        }
-
-                        index++;
                     }
-
                 }
-
-
-
-
-
-
-//                List<Direction> matchInDirections = check8Positions(row, column, word.charAt(1));
-
-//                if (matchInDirections.size() > 0) {
-//                    for (int d = 0; d < matchInDirections.size(); d++) {
-//                        int matchingChars = 1;
-//                        boolean foundMatch = true;
-//                        int index = 2;
-//
-//                        while (foundMatch && index < word.length()) {
-//                            char letter = word.charAt(index);
-//                            char letterInDirection = getNextCharInDirection(matchInDirections.get(d), row, column, index);
-//                            if (letter == letterInDirection) {
-//                                matchingChars++;
-//                                index++;
-//                                if (matchingChars == word.length() - 1) {
-//                                    System.out.println("FOUND MATCH");
-//                                    answers.add("(" +row + ", " + column + ")" + matchInDirections.get(d));
-//                                }
-//                            } else {
-//                                foundMatch = false;
-//                            }
-//                        }
-//                    }
-//                }
             }
         }
         System.out.println(answers);
