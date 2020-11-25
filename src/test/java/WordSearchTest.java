@@ -20,7 +20,7 @@ public class WordSearchTest
 //    };
 
     @Test
-    private void findWordsAndCoordinatesTest() {
+    public void findWordsAndCoordinatesTest() {
         // Given
 
         // When
