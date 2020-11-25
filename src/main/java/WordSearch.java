@@ -25,22 +25,69 @@ public class WordSearch{
 
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
-                boolean foundMatch = true;
-                int index = 0;
-                while (foundMatch && index < word.length() - 1) {
-                    char letter = word.charAt(index);
-                    List<Direction> directions = check8Positions(row, column, letter);
-                    System.out.println(directions.size());
-                    if (directions.size() == 0)
-                        foundMatch = false;
-                    else if (directions.size() == 2) {
-                        System.out.println(word);
+
+                // 4 , 3
+//                if (row == 0 && column == 4)
+//                    System.out.println("logged WE ARE JLOGJDLS ");
+
+                List<Direction> matchInDirections = check8Positions(row, column, word.charAt(1));
+
+                if (matchInDirections.size() > 0) {
+                    for (int d = 0; d < matchInDirections.size(); d++) {
+                        int matchingChars = 1;
+                        boolean foundMatch = true;
+                        int index = 2;
+                        while (foundMatch && index < word.length()) {
+                            char letter = word.charAt(index);
+                            char letterInDirection = getNextCharInDirection(matchInDirections.get(d), row, column, index);
+                            if (letter == letterInDirection) {
+                                matchingChars++;
+                                index++;
+                                if (matchingChars == word.length() - 1) {
+                                    System.out.println("FOUND MATCH");
+                                }
+                            } else {
+                                foundMatch = false;
+                            }
+                        }
                     }
-                    index++;
                 }
             }
         }
         return null;
+    }
+
+    private char getNextCharInDirection(Direction direction, int row, int column, int reachAmount) {
+        char letter = '0';
+        switch(direction) {
+            case NW:
+                letter = indexesAreInRange(row - reachAmount, column - reachAmount);
+                break;
+            case N:
+                letter = indexesAreInRange(row - reachAmount, column);
+                break;
+            case NE:
+                letter = indexesAreInRange(row - reachAmount, column + reachAmount);
+                break;
+
+            case W:
+                letter = indexesAreInRange(row, column - reachAmount);
+                break;
+            case E:
+                letter = indexesAreInRange(row, column + reachAmount);
+                break;
+
+            case SW:
+                letter = indexesAreInRange(row + reachAmount, column - reachAmount);
+                break;
+            case S:
+                letter = indexesAreInRange(row + reachAmount, column);
+                break;
+            case SE:
+                letter = indexesAreInRange(row + reachAmount, column + reachAmount);
+                break;
+        }
+        return letter;
     }
 
     private List<Direction> check8Positions(int row, int column, char letter) {

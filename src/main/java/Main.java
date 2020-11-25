@@ -7,7 +7,7 @@ public class Main {
                 {'p', 'e', 'e', 't', 'u', 'v'},
                 {'y', 'j', 'y', 'y', 'r', 's'}
         };
-        String word = "et";
+        String word = "ety";
         ws.findWordsAndCoordinates(grid, word);
     }
 }
