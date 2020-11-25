@@ -20,7 +20,7 @@ public class WordSearchTest
     };
 
     @Test
-    public void findWordsAndCoordinatesTest() {
+    public void findWordsAndCoordinatesTestOriginal() {
         // Given
         String word = "et";
 
@@ -33,7 +33,7 @@ public class WordSearchTest
     }
 
     @Test
-    public void findWordsAndCoordinatesTest2() {
+    public void findWordsAndCoordinatesTestOriginal2() {
         // Given
         String word = "key";
 
@@ -46,7 +46,7 @@ public class WordSearchTest
     }
 
     @Test
-    public void printLocationsTest2(){
+    public void findWordsAndCoordinates2(){
         String word = "et";
 
         String expected = "[(0 , 4)SW, (1 , 2)E]";
@@ -57,7 +57,7 @@ public class WordSearchTest
     }
 
     @Test
-    public void printLocationsTest3(){
+    public void findWordsAndCoordinates3(){
         String word = "key";
 
         String expected = "[(0 , 1)SE, (0 , 2)S, (0 , 2)SW, (0 , 5)W]";
@@ -68,7 +68,7 @@ public class WordSearchTest
     }
 
     @Test
-    public void printLocationsTest4(){
+    public void findWordsAndCoordinates4(){
         String word = "beep";
 
         String expected = "Not Found";

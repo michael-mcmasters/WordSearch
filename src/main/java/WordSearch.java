@@ -3,63 +3,28 @@ import java.util.List;
 
 public class WordSearch{
 
-//    Given a 2D grid of characters and a word, find all occurrences of given word in grid.
-//
-//    A word can be matched in all 8 directions at any point.
-//    Word is said be found in a direction if all characters match in this direction (not in zig-zag form).
-//    The solution should print the starting coordinate and the direction (north, east, south, west, etc..)
-//    The 8 directions are North, South, East, West,...
-
     public char[][] grid;
 
     // Originally had these in order. (NW, N, NE, W, E, SW, S, SE).
-    // But rearranged them so that the loop below iterates in this order, because this is the order the tests wanted them in.
+    // But rearranged them so that the loop below iterates in this order, because this is the order the tests want them returned as.
     public enum Direction {
         N, NE, E, S, SW, W, SE, NW
     }
 
+    // Loops through every row and column in the grid.
+    // If the first letter of that row and column matches the first letter of word,
+    // it calls a function to continue searching for word in all 8 directions from that position.
     public String findWordsAndCoordinates(char[][] grid, String word) {
-        List<String> answers = new ArrayList<>();
-
         this.grid = grid;
+
+        List<String> answers = new ArrayList<>();
         int rows = grid.length;
         int columns = grid[0].length;
 
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
-
-                // Condition here for debugging breakpoint.
-                if (row == 0 && column == 5) {
-                    System.out.println(grid[row][column]);
-                }
-
                 if (grid[row][column] == word.charAt(0)) {
-                    for (Direction direction : Direction.values()) {
-                        int index = 1;
-                        int matches = 0;
-                        boolean continueSearching = true;
-                        while (continueSearching) {
-                            char letter = word.charAt(index);
-                            int dirDistance = index;
-                            char letterInDir = getNextCharInDirection(direction, row, column, dirDistance);
-                            if (letter == letterInDir) {
-                                matches++;
-                            } else {
-                                continueSearching = false;
-                                continue;
-                            }
-
-                            if (index == word.length() - 1) {
-                                if (matches > 0)
-                                    answers.add("(" +row + " , " + column + ")" + direction);
-                                continueSearching = false;
-                                continue;
-                            }
-
-                            index++;
-                        }
-
-                    }
+                    answers.addAll(searchForWordInAllDirections(row, column, word));
                 }
             }
         }
@@ -70,6 +35,41 @@ public class WordSearch{
         return answers.toString();
     }
 
+    // Search for word in all 8 directions from the given coordinates [row][column]. Return all matches.
+    private List<String> searchForWordInAllDirections(int row, int column, String word) {
+        List<String> answers = new ArrayList<String>();
+
+        for (Direction direction : Direction.values()) {
+            int index = 1;
+            int matches = 0;
+            boolean continueSearching = true;
+            while (continueSearching) {
+                char letter = word.charAt(index);
+                char letterInDir = getNextCharInDirection(direction, row, column, index);
+                if (letter == letterInDir) {
+                    matches++;
+                } else {
+                    continueSearching = false;
+                    continue;
+                }
+
+                if (index == word.length() - 1) {
+                    if (matches > 0)
+                        answers.add("(" +row + " , " + column + ")" + direction);  // Looks something like (0 , 4)SW
+
+                    continueSearching = false;
+                    continue;
+                }
+
+                index++;
+            }
+        }
+        return answers;
+    }
+
+
+
+    // Returns char if one is found. Otherwise returns number 0 (as a character).
     private char getNextCharInDirection(Direction direction, int row, int column, int dirDistance) {
         char letter = '0';
         switch(direction) {
@@ -103,41 +103,14 @@ public class WordSearch{
         return letter;
     }
 
-    private List<Direction> check8Positions(int row, int column, char letter) {
-        List<Direction> directions = new ArrayList<Direction>();
-
-        if (indexesAreInRange(row - 1, column - 1) == letter)
-            directions.add(Direction.NW);
-        if (indexesAreInRange(row - 1, column) == letter)
-            directions.add(Direction.N);
-        if (indexesAreInRange(row - 1, column + 1) == letter)
-            directions.add(Direction.NE);
-
-        if (indexesAreInRange(row, column - 1) == letter)
-            directions.add(Direction.W);
-        if (indexesAreInRange(row, column + 1) == letter)
-            directions.add(Direction.E);
-
-        if (indexesAreInRange(row + 1, column - 1) == letter)
-            directions.add(Direction.SW);
-        if (indexesAreInRange(row + 1, column) == letter)
-            directions.add(Direction.S);
-        if (indexesAreInRange(row + 1, column + 1) == letter)
-            directions.add(Direction.SE);
-
-        return directions;
-    }
-
-    // Makes sure both indexes are in range for multidimensional array.
+    // Makes sure both indexes are in range of the multidimensional array.
+    // Returns 0 (as character) if not.
     private char indexesAreInRange(int rowIndex, int columnIndex) {
         if (rowIndex >= 0 && rowIndex < grid.length && columnIndex >= 0 && columnIndex < grid[0].length) {
             return grid[rowIndex][columnIndex];
         }
         return '0';
     }
-
-//    private void checkDirection(Direction) {
-//    }
 }
 
 
