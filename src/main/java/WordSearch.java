@@ -5,8 +5,7 @@ public class WordSearch{
 
     public char[][] grid;
 
-    // Originally had these in order. (NW, N, NE, W, E, SW, S, SE).
-    // But rearranged them so that the loop below iterates in this order, because this is the order the tests want them returned as.
+    // Enum values must be in this order because this is the order the tests want the results returned as.
     public enum Direction {
         N, NE, E, S, SW, W, SE, NW
     }
@@ -35,7 +34,7 @@ public class WordSearch{
         return answers.toString();
     }
 
-    // Search for word in all 8 directions from the given coordinates [row][column]. Return all matches.
+    // Search for word in all 8 directions from the given coordinates grid[row][column]. Return all matches.
     private List<String> searchForWordInAllDirections(int row, int column, String word) {
         List<String> answers = new ArrayList<String>();
 
@@ -44,7 +43,7 @@ public class WordSearch{
             boolean searchInDirection = true;
             int index = 1;
             while (searchInDirection) {
-                if (word.charAt(index) == getNextCharInDirection(direction, row, column, index)) {
+                if (word.charAt(index) == getNextCharInDirection(row, column, index, direction)) {
                     if (index == word.length() - 1) {
                         // If this is the last char in the word, and every char matched, it is a match.
                         answers.add(String.format("(%d , %d)%s", row, column, direction));
@@ -63,43 +62,45 @@ public class WordSearch{
 
 
 
-    // Returns char if one is found. Otherwise returns number 0 (as a character).
-    private char getNextCharInDirection(Direction direction, int row, int column, int dirDistance) {
+    // Returns char if one is found. Otherwise returns 0 (as a character).
+    // dirDistance is how far from the origin point to search.
+    // For example: If looking for 1st index of word, we search 1 row and 1 column away... If searching for 2nd index of word, we search 2 rows and 2 columns away... etc.
+    private char getNextCharInDirection(int row, int column, int dirDistance, Direction direction) {
         char letter = '0';
         switch(direction) {
             case NW:
-                letter = indexesAreInRange(row - dirDistance, column - dirDistance);
+                letter = getCharIfInRange(row - dirDistance, column - dirDistance);
                 break;
             case N:
-                letter = indexesAreInRange(row - dirDistance, column);
+                letter = getCharIfInRange(row - dirDistance, column);
                 break;
             case NE:
-                letter = indexesAreInRange(row - dirDistance, column + dirDistance);
+                letter = getCharIfInRange(row - dirDistance, column + dirDistance);
                 break;
 
             case W:
-                letter = indexesAreInRange(row, column - dirDistance);
+                letter = getCharIfInRange(row, column - dirDistance);
                 break;
             case E:
-                letter = indexesAreInRange(row, column + dirDistance);
+                letter = getCharIfInRange(row, column + dirDistance);
                 break;
 
             case SW:
-                letter = indexesAreInRange(row + dirDistance, column - dirDistance);
+                letter = getCharIfInRange(row + dirDistance, column - dirDistance);
                 break;
             case S:
-                letter = indexesAreInRange(row + dirDistance, column);
+                letter = getCharIfInRange(row + dirDistance, column);
                 break;
             case SE:
-                letter = indexesAreInRange(row + dirDistance, column + dirDistance);
+                letter = getCharIfInRange(row + dirDistance, column + dirDistance);
                 break;
         }
         return letter;
     }
 
-    // Makes sure both indexes are in range of the multidimensional array.
-    // Returns 0 (as character) if not.
-    private char indexesAreInRange(int rowIndex, int columnIndex) {
+    // Makes sure both indexes are in range of the multidimensional array. Returns 0 (as character) if not.
+    // For example, there is nothing north west of grid[0][0]. This checks for that.
+    private char getCharIfInRange(int rowIndex, int columnIndex) {
         if (rowIndex >= 0 && rowIndex < grid.length && columnIndex >= 0 && columnIndex < grid[0].length) {
             return grid[rowIndex][columnIndex];
         }
