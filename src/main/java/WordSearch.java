@@ -12,10 +12,10 @@ public class WordSearch{
 
     public char[][] grid;
 
+    // Originally had these in order. (NW, N, NE, W, E, SW, S, SE).
+    // But rearranged them so that the loop below iterates in this order, because this is the order the tests wanted them in.
     public enum Direction {
-        NW, N, NE,
-        W,      E,
-        SW, S, SE
+        N, NE, E, S, SW, W, SE, NW
     }
 
     public String findWordsAndCoordinates(char[][] grid, String word) {
@@ -29,7 +29,7 @@ public class WordSearch{
             for (int column = 0; column < columns; column++) {
 
                 // Condition here for debugging breakpoint.
-                if (row == 0 && column == 2) {
+                if (row == 0 && column == 5) {
                     System.out.println(grid[row][column]);
                 }
 
@@ -46,12 +46,14 @@ public class WordSearch{
                                 matches++;
                             } else {
                                 continueSearching = false;
+                                continue;
                             }
 
                             if (index == word.length() - 1) {
                                 if (matches > 0)
                                     answers.add("(" +row + " , " + column + ")" + direction);
                                 continueSearching = false;
+                                continue;
                             }
 
                             index++;
@@ -125,7 +127,7 @@ public class WordSearch{
 
     // Makes sure both indexes are in range for multidimensional array.
     private char indexesAreInRange(int rowIndex, int columnIndex) {
-        if (rowIndex > 0 && rowIndex < grid.length && columnIndex > 0 && columnIndex < grid[0].length) {
+        if (rowIndex >= 0 && rowIndex < grid.length && columnIndex >= 0 && columnIndex < grid[0].length) {
             return grid[rowIndex][columnIndex];
         }
         return '0';
