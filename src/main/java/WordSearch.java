@@ -19,6 +19,8 @@ public class WordSearch{
     }
 
     public String findWordsAndCoordinates(char[][] grid, String word) {
+        List<String> answers = new ArrayList<>();
+
         this.grid = grid;
         int rows = grid.length;
         int columns = grid[0].length;
@@ -26,9 +28,10 @@ public class WordSearch{
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
 
-                // 4 , 3
-//                if (row == 0 && column == 4)
-//                    System.out.println("logged WE ARE JLOGJDLS ");
+                // Condition here for debuggin purposes
+                if (row == 0 && column == 4) {
+                    System.out.println(grid[row][column]);
+                }
 
                 List<Direction> matchInDirections = check8Positions(row, column, word.charAt(1));
 
@@ -37,6 +40,7 @@ public class WordSearch{
                         int matchingChars = 1;
                         boolean foundMatch = true;
                         int index = 2;
+
                         while (foundMatch && index < word.length()) {
                             char letter = word.charAt(index);
                             char letterInDirection = getNextCharInDirection(matchInDirections.get(d), row, column, index);
@@ -45,6 +49,7 @@ public class WordSearch{
                                 index++;
                                 if (matchingChars == word.length() - 1) {
                                     System.out.println("FOUND MATCH");
+                                    answers.add("(" +row + ", " + column + ")" + matchInDirections.get(d));
                                 }
                             } else {
                                 foundMatch = false;
@@ -54,7 +59,8 @@ public class WordSearch{
                 }
             }
         }
-        return null;
+        System.out.println(answers);
+        return answers.toString();
     }
 
     private char getNextCharInDirection(Direction direction, int row, int column, int reachAmount) {
