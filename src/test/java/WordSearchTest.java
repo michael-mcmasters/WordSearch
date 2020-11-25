@@ -22,10 +22,11 @@ public class WordSearchTest
     @Test
     public void findWordsAndCoordinatesTest() {
         // Given
+        String word = "et";
 
         // When
         String expected = "[(0 , 4)SW, (1 , 2)E]";
-        String actual = wordSearch.findWordsAndCoordinates(grid);
+        String actual = wordSearch.findWordsAndCoordinates(grid, word);
 
         // Then
         Assert.assertEquals(expected, actual);
