@@ -41,26 +41,18 @@ public class WordSearch{
 
         for (Direction direction : Direction.values()) {
             int index = 1;
-            int matches = 0;
-            boolean continueSearching = true;
-            while (continueSearching) {
-                char letter = word.charAt(index);
-                char letterInDir = getNextCharInDirection(direction, row, column, index);
-                if (letter == letterInDir) {
-                    matches++;
-                } else {
-                    continueSearching = false;
+            boolean charactersMatch = true;
+            while (charactersMatch) {
+                if (word.charAt(index) != getNextCharInDirection(direction, row, column, index)) {
+                    charactersMatch = false;
                     continue;
                 }
 
+                // If ever character in the word has been searched and the loop hasn't been stopped, this is a match.
                 if (index == word.length() - 1) {
-                    if (matches > 0)
-                        answers.add(String.format("(%d , %d)%s", row, column, direction));
-
-                    continueSearching = false;
-                    continue;
+                    answers.add(String.format("(%d , %d)%s", row, column, direction));
+                    charactersMatch = false;
                 }
-
                 index++;
             }
         }
