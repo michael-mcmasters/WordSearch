@@ -25,41 +25,40 @@ public class WordSearch{
 
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
-                System.out.println(row * column);
+                check8Positions(row, column, 't');
             }
         }
-        
-        System.out.println(check8Positions(0, 0, 't'));
         return null;
     }
 
     private List<Direction> check8Positions(int row, int column, char letter) {
         List<Direction> directions = new ArrayList<Direction>();
 
-        if (getChar(row, column) == letter)
+        if (indexesAreInRange(row - 1, column - 1) == letter)
             directions.add(Direction.NW);
-        if (getChar(row, column) == letter)
+        if (indexesAreInRange(row - 1, column) == letter)
             directions.add(Direction.N);
-        if (getChar(row, column) == letter)
+        if (indexesAreInRange(row - 1, column + 1) == letter)
             directions.add(Direction.NE);
 
-        if (getChar(row, column) == letter)
+        if (indexesAreInRange(row, column - 1) == letter)
             directions.add(Direction.W);
-        if (getChar(row, column) == letter)
+        if (indexesAreInRange(row, column + 1) == letter)
             directions.add(Direction.E);
 
-        if (getChar(row, column) == letter)
+        if (indexesAreInRange(row + 1, column - 1) == letter)
             directions.add(Direction.SW);
-        if (getChar(row, column) == letter)
+        if (indexesAreInRange(row + 1, column) == letter)
             directions.add(Direction.S);
-        if (getChar(row, column) == letter)
+        if (indexesAreInRange(row + 1, column + 1) == letter)
             directions.add(Direction.SE);
 
+        System.out.println(directions.size());
         return directions;
     }
 
-    // Makes sure row and columns indexes are in range
-    private char getChar(int rowIndex, int columnIndex) {
+    // Makes sure both indexes are in range for multidimensional array.
+    private char indexesAreInRange(int rowIndex, int columnIndex) {
         if (rowIndex > 0 && rowIndex < grid.length && columnIndex > 0 && columnIndex < grid[0].length) {
             return grid[rowIndex][columnIndex];
         }
