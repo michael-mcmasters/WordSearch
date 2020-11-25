@@ -40,21 +40,23 @@ public class WordSearch{
         List<String> answers = new ArrayList<String>();
 
         for (Direction direction : Direction.values()) {
-            int index = 1;
-            boolean charactersMatch = true;
-            while (charactersMatch) {
-                if (word.charAt(index) != getNextCharInDirection(direction, row, column, index)) {
-                    charactersMatch = false;
-                    continue;
-                }
 
-                // If ever character in the word has been searched and the loop hasn't been stopped, this is a match.
-                if (index == word.length() - 1) {
-                    answers.add(String.format("(%d , %d)%s", row, column, direction));
-                    charactersMatch = false;
+            boolean searchInDirection = true;
+            int index = 1;
+            while (searchInDirection) {
+                if (word.charAt(index) == getNextCharInDirection(direction, row, column, index)) {
+                    if (index == word.length() - 1) {
+                        // If this is the last char in the word, and every char matched, it is a match.
+                        answers.add(String.format("(%d , %d)%s", row, column, direction));
+                        searchInDirection = false;
+                    }
+                    index++;
+                } else {
+                    // If any chars don't match, stop searching in this direction
+                    searchInDirection = false;
                 }
-                index++;
             }
+
         }
         return answers;
     }
