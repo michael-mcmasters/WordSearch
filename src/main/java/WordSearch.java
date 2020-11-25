@@ -63,7 +63,10 @@ public class WordSearch{
                 }
             }
         }
-        System.out.println(answers);
+
+        if (answers.size() == 0)
+            return "Not Found";
+
         return answers.toString();
     }
 

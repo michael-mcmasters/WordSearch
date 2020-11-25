@@ -44,4 +44,37 @@ public class WordSearchTest
         // Then
         Assert.assertEquals(expected, actual);
     }
+
+    @Test
+    public void printLocationsTest2(){
+        String word = "et";
+
+        String expected = "[(0 , 4)SW, (1 , 2)E]";
+
+        String actual = wordSearch.findWordsAndCoordinates(grid, word);
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void printLocationsTest3(){
+        String word = "key";
+
+        String expected = "[(0 , 1)SE, (0 , 2)S, (0 , 2)SW, (0 , 5)W]";
+
+        String actual = wordSearch.findWordsAndCoordinates(grid, word);
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void printLocationsTest4(){
+        String word = "beep";
+
+        String expected = "Not Found";
+
+        String actual = wordSearch.findWordsAndCoordinates(grid2, word);
+
+        Assert.assertEquals(expected, actual);
+    }
 }
