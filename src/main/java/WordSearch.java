@@ -10,12 +10,14 @@ public class WordSearch{
         N, NE, E, S, SW, W, SE, NW
     }
 
+    public WordSearch(char[][] grid) {
+        this.grid = grid;
+    }
+
     // Loops through every row and column in the grid.
     // If the first letter of that row and column matches the first letter of word,
     // it calls a function to continue searching for word in all 8 directions from that position.
-    public String findWordsAndCoordinates(char[][] grid, String word) {
-        this.grid = grid;
-
+    public String findWordsAndCoordinates(String word) {
         List<String> answers = new ArrayList<>();
         int rows = grid.length;
         int columns = grid[0].length;
