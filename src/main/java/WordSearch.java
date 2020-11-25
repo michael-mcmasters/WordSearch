@@ -55,7 +55,7 @@ public class WordSearch{
 
                 if (index == word.length() - 1) {
                     if (matches > 0)
-                        answers.add("(" +row + " , " + column + ")" + direction);  // Looks something like (0 , 4)SW
+                        answers.add(String.format("(%d , %d)%s", row, column, direction));
 
                     continueSearching = false;
                     continue;
