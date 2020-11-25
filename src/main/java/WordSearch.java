@@ -10,6 +10,8 @@ public class WordSearch{
         N, NE, E, S, SW, W, SE, NW
     }
 
+
+
     public WordSearch(char[][] grid) {
         this.grid = grid;
     }
@@ -101,7 +103,7 @@ public class WordSearch{
     }
 
     // Makes sure both indexes are in range of the multidimensional array. Returns 0 (as character) if not.
-    // For example, there is nothing north west of grid[0][0]. This checks for that.
+    // For example, there is nothing north west of grid[0][0] but there is for grid[1][1]. This checks for that.
     private char getCharIfInRange(int rowIndex, int columnIndex) {
         if (rowIndex >= 0 && rowIndex < grid.length && columnIndex >= 0 && columnIndex < grid[0].length) {
             return grid[rowIndex][columnIndex];
