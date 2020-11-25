@@ -28,69 +28,100 @@ public class WordSearch{
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
 
-                // Condition here for debuggin purposes
+                // Condition here for debugging breakpoint.
                 if (row == 0 && column == 4) {
                     System.out.println(grid[row][column]);
                 }
 
-                List<Direction> matchInDirections = check8Positions(row, column, word.charAt(1));
 
-                if (matchInDirections.size() > 0) {
-                    for (int d = 0; d < matchInDirections.size(); d++) {
-                        int matchingChars = 1;
-                        boolean foundMatch = true;
-                        int index = 2;
-
-                        while (foundMatch && index < word.length()) {
-                            char letter = word.charAt(index);
-                            char letterInDirection = getNextCharInDirection(matchInDirections.get(d), row, column, index);
-                            if (letter == letterInDirection) {
-                                matchingChars++;
-                                index++;
-                                if (matchingChars == word.length() - 1) {
-                                    System.out.println("FOUND MATCH");
-                                    answers.add("(" +row + ", " + column + ")" + matchInDirections.get(d));
-                                }
-                            } else {
-                                foundMatch = false;
-                            }
+                for (Direction direction : Direction.values()) {
+                    int index = 1;
+                    int matches = 0;
+                    boolean continueSearching = true;
+                    while (continueSearching) {
+                        char letter = word.charAt(index);
+                        int dirDistance = index;
+                        char letterInDir = getNextCharInDirection(direction, row, column, dirDistance);
+                        if (letter == letterInDir) {
+                            matches++;
+                        } else {
+                            continueSearching = false;
                         }
+
+                        if (index == word.length() - 1) {
+                            if (matches > 0)
+                                answers.add("(" +row + ", " + column + ")" + direction);
+                            continueSearching = false;
+                        }
+
+                        index++;
                     }
+
                 }
+
+
+
+
+
+
+//                List<Direction> matchInDirections = check8Positions(row, column, word.charAt(1));
+
+//                if (matchInDirections.size() > 0) {
+//                    for (int d = 0; d < matchInDirections.size(); d++) {
+//                        int matchingChars = 1;
+//                        boolean foundMatch = true;
+//                        int index = 2;
+//
+//                        while (foundMatch && index < word.length()) {
+//                            char letter = word.charAt(index);
+//                            char letterInDirection = getNextCharInDirection(matchInDirections.get(d), row, column, index);
+//                            if (letter == letterInDirection) {
+//                                matchingChars++;
+//                                index++;
+//                                if (matchingChars == word.length() - 1) {
+//                                    System.out.println("FOUND MATCH");
+//                                    answers.add("(" +row + ", " + column + ")" + matchInDirections.get(d));
+//                                }
+//                            } else {
+//                                foundMatch = false;
+//                            }
+//                        }
+//                    }
+//                }
             }
         }
         System.out.println(answers);
         return answers.toString();
     }
 
-    private char getNextCharInDirection(Direction direction, int row, int column, int reachAmount) {
+    private char getNextCharInDirection(Direction direction, int row, int column, int dirDistance) {
         char letter = '0';
         switch(direction) {
             case NW:
-                letter = indexesAreInRange(row - reachAmount, column - reachAmount);
+                letter = indexesAreInRange(row - dirDistance, column - dirDistance);
                 break;
             case N:
-                letter = indexesAreInRange(row - reachAmount, column);
+                letter = indexesAreInRange(row - dirDistance, column);
                 break;
             case NE:
-                letter = indexesAreInRange(row - reachAmount, column + reachAmount);
+                letter = indexesAreInRange(row - dirDistance, column + dirDistance);
                 break;
 
             case W:
-                letter = indexesAreInRange(row, column - reachAmount);
+                letter = indexesAreInRange(row, column - dirDistance);
                 break;
             case E:
-                letter = indexesAreInRange(row, column + reachAmount);
+                letter = indexesAreInRange(row, column + dirDistance);
                 break;
 
             case SW:
-                letter = indexesAreInRange(row + reachAmount, column - reachAmount);
+                letter = indexesAreInRange(row + dirDistance, column - dirDistance);
                 break;
             case S:
-                letter = indexesAreInRange(row + reachAmount, column);
+                letter = indexesAreInRange(row + dirDistance, column);
                 break;
             case SE:
-                letter = indexesAreInRange(row + reachAmount, column + reachAmount);
+                letter = indexesAreInRange(row + dirDistance, column + dirDistance);
                 break;
         }
         return letter;
