@@ -25,7 +25,19 @@ public class WordSearch{
 
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
-                check8Positions(row, column, 't');
+                boolean foundMatch = true;
+                int index = 0;
+                while (foundMatch && index < word.length() - 1) {
+                    char letter = word.charAt(index);
+                    List<Direction> directions = check8Positions(row, column, letter);
+                    System.out.println(directions.size());
+                    if (directions.size() == 0)
+                        foundMatch = false;
+                    else if (directions.size() == 2) {
+                        System.out.println(word);
+                    }
+                    index++;
+                }
             }
         }
         return null;
@@ -53,7 +65,6 @@ public class WordSearch{
         if (indexesAreInRange(row + 1, column + 1) == letter)
             directions.add(Direction.SE);
 
-        System.out.println(directions.size());
         return directions;
     }
 
